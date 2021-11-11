@@ -21,6 +21,7 @@
 #include <mutex>
 #include <string>
 #include <valarray>
+#include <algorithm>
 
 #include "./circular_queue.h"
 #include "./matrix_driver.h"
@@ -56,6 +57,11 @@ class MicrophoneArray : public MatrixDriver {
   uint16_t Channels() { return kMicrophoneChannels; }
   uint32_t NumberOfSamples() {
     return kMicarrayBufferSize / kMicrophoneChannels;
+  }
+
+
+  void CopyRaw(int16_t* buffer_adr ){
+    std::copy(begin(raw_data_),begin(raw_data_)+Channels()*NumberOfSamples(),buffer_adr);
   }
 
   int16_t &Raw(int16_t sample, int16_t channel) {
